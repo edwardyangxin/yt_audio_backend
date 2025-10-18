@@ -52,6 +52,13 @@ async def download_audio_async(url: str, download_dir: str):
         "quiet": True,
     }
 
+    cookies_file = os.path.join(os.getcwd(), "cookies.txt")
+    if os.path.exists(cookies_file):
+        ydl_opts["cookiefile"] = cookies_file
+        print(f"[yt-dlp] Using cookies.txt for authentication")
+    else:
+        print(f"[yt-dlp] No cookies.txt found, anonymous download (may fail)")
+    
     def _download():
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=True)
