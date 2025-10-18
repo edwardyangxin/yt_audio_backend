@@ -3,7 +3,7 @@ import os
 import asyncio
 import time
 
-async def auto_cleanup(directory: str, expire_hours: int = 24):
+async def auto_cleanup(directory: str, expire_hours: int = 24 * 7):
     """自动清理超过指定小时的旧音频"""
     while True:
         now = time.time()

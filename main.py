@@ -3,10 +3,18 @@ import os
 import asyncio
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
+from fastapi.middleware.cors import CORSMiddleware
 from utils.downloader import download_audio_async, extract_video_id
 from utils.cleaner import auto_cleanup
 
 app = FastAPI(title="YouTube Audio Service", version="1.0")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 DOWNLOAD_DIR = "downloads"
 os.makedirs(DOWNLOAD_DIR, exist_ok=True)
