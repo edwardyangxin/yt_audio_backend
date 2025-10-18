@@ -1,7 +1,7 @@
 # yt_audio_backend/main.py
 import os
 import asyncio
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Response
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from utils.downloader import download_audio_async, extract_video_id
@@ -24,6 +24,11 @@ os.makedirs(DOWNLOAD_DIR, exist_ok=True)
 async def startup_event():
     # 启动自动清理协程（每小时执行一次）
     asyncio.create_task(auto_cleanup(DOWNLOAD_DIR))
+
+
+@app.options("/download", include_in_schema=False)
+async def download_options() -> Response:
+    return Response(status_code=200)
 
 
 @app.post("/download")
